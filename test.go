@@ -1,0 +1,60 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+// Copyright © 2019 by Vault Thirteen.
+//
+// All rights reserved. No part of this publication may be reproduced,
+// distributed, or transmitted in any form or by any means, including
+// photocopying, recording, or other electronic or mechanical methods,
+// without the prior written permission of the publisher, except in the case
+// of brief quotations embodied in critical reviews and certain other
+// noncommercial uses permitted by copyright law. For permission requests,
+// write to the publisher, addressed “Copyright Protected Material” at the
+// address below.
+//
+////////////////////////////////////////////////////////////////////////////////
+//
+// Web Site Address:	https://github.com/vault-thirteen.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+// +build test
+
+package eom
+
+import (
+	"database/sql"
+
+	// PostgreSQL Driver.
+	_ "github.com/lib/pq"
+
+	"github.com/vault-thirteen/postgresql"
+)
+
+// Test Database Parameters.
+const (
+	TestDatabaseDriver     = "postgres"
+	TestDatabaseHost       = "localhost"
+	TestDatabasePort       = "5432"
+	TestDatabaseDatabase   = "test"
+	TestDatabaseUser       = "test"
+	TestDatabasePassword   = "test"
+	TestDatabaseParameters = "sslmode=disable"
+)
+
+func makeTestDatabaseDsn() (dsn string) {
+	dsn = postgresql.MakePostgresqlDsn(
+		TestDatabaseHost,
+		TestDatabasePort,
+		TestDatabaseDatabase,
+		TestDatabaseUser,
+		TestDatabasePassword,
+		TestDatabaseParameters,
+	)
+	return
+}
+
+func connectToTestDatabase(
+	dsn string,
+) (sqlConnection *sql.DB, err error) {
+	return sql.Open(TestDatabaseDriver, dsn)
+}
